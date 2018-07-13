@@ -86,7 +86,7 @@ can use to simulate camera images and metadata you will later display to the cli
 **stream\_online\_viewer/start\_stream.py** and can be run from the ROOT of this repository:
 
 ```bash
-export PYTHONPATH=$(PWD):${PYTHONPATH}
+export PYTHONPATH=$(pwd):${PYTHONPATH}
 python stream_online_viewer/start_stream.py
 ```
 
