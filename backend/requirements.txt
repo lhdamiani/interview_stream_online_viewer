@@ -1,0 +1,6 @@
+Flask==1.0.2
+Flask_SocketIO==3.0.0
+flask-cors==3.0.6
+flask-material==0.1.1
+request==1.0.2
+flask-restful==0.3.6
