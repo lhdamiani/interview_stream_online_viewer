@@ -23,7 +23,7 @@ pip install -r requirements.txt
 To run the Flask-Socketio web server from the 'backend' folder:
 
 ```
-python webserver.py -H <HOST> -P <PORT>
+python web_server.py -H <HOST> -P <PORT>
 ```
 
 ### Changelog
