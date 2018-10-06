@@ -149,3 +149,15 @@
 	max-width: 900px;
 	margin: 40px auto;
   }
+ 
+.centered-text-over-img {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.container-text-over-img {
+    position: relative;
+    text-align: center;
+    color: white;
+}
