@@ -91,13 +91,23 @@ class Login(Resource):
             flash("Try again...")
             return make_response(render_template('login.html'), 200, headers)
 
-@app.route("/logout")
-def logout():
-    session['logged_in'] = False
-    return redirect(url_for('index'))
+class Logout(Resource):
+    def __init__(self):
+        pass
+    def get(self):
+        session['logged_in'] = False
+        return redirect(url_for('index'))
+
+
+# @app.route("/logout")
+# def logout():
+    # session['logged_in'] = False
+    # return redirect(url_for('index'))
+    
 
 api.add_resource(Index, '/')
 api.add_resource(Login,'/login')
+api.add_resource(Logout,'/logout')
 
 if __name__ == '__main__':
     # Default host 
