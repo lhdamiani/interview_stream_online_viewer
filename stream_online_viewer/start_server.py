@@ -108,7 +108,7 @@ def test_connect():
     #Start the random number generator thread only if the thread has not been started before.
     if not thread.isAlive():
         print("Starting Thread")
-        thread = RandomThread(8888, -1)
+        thread = RandomThread(int(default_port_source), -1)
         thread.start()
 
 
@@ -154,6 +154,9 @@ if __name__ == '__main__':
     default_host="127.0.0.1"
     # Default port
     default_port="5000"
+
+    # Default port
+    default_port_source="8888"
     # Parser of the options
     parser = optparse.OptionParser()
     parser.add_option("-H", "--host",
@@ -164,6 +167,11 @@ if __name__ == '__main__':
         help="Port for the Flask app " + \
             "[default %s]" % default_port,
         default=default_port)
+    
+    parser.add_option("-S", "--source_port",
+        help="Port for the source generator " + \
+            "[default %s]" % default_port_source,
+        default=default_port_source)
 
     parser.add_option("-d", "--debug",
         action="store_true", dest="debug",

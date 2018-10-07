@@ -58,33 +58,31 @@ conda install -c paulscherrerinstitute bsread numpy matplotlib
 ```
 
 ## Run
-<<<<<<< HEAD
 -------------------------
 To run the Flask-Socketio web server from the ROOT folder:
 
 ```bash
 export PYTHONPATH=$(pwd):${PYTHONPATH}
-python stream_online_viewer/start_server.py -H <HOST> -P <PORT>
-=======
-
-
-### Server
-Run from the ROOT of this repository:
->>>>>>> 2bd363649b34a8ee6caf8c72912f673dfe50f65c
+python stream_online_viewer/start_server.py -H <HOST> -P <PORT> -S <SOURCE_STREAM_PORT>
 ```
+> **Note**: Default values for `<HOST>`, `<PORT>` and `<SOURCE_STREAM_PORT>` are 127.0.0.1, 5000 and 8888, respectively.
 
 To run the data generator:
 ```bash
 export PYTHONPATH=$(pwd):${PYTHONPATH}
 python stream_online_viewer/start_stream.py
 ```
-> **Note**: Default values for `<HOST>` and `<PORT>` are 127.0.0.1 and 5000, respectively.
+> **Note**: Default values for the data generated is 8888
 
-<<<<<<< HEAD
-To access the client viewer go
-### Changelog
--------------------------
-=======
+To access the client viewer go to 127.0.0.1:5000 on your browser
+> **Note**: Firefox is recommended.
+and proceed with the login
+**Username: admin**
+**Password: password**
+> **Note**: For the purpose of this task, not much effort has been invested into the security method. The method adopted simply serves as a reminder that such web app needs security.
+
+The client works in any screen-width - it is ready for mobile usage and small screens.
+
 ### Data stream generator
 
 This is the protocol we use to transfer beam synchronous data at SwissFEL: [https://github.com/paulscherrerinstitute/bsread_python](https://github.com/paulscherrerinstitute/bsread_python)
@@ -97,8 +95,6 @@ The generator is located in **stream_online_viewer/start_stream.py** and can be 
 export PYTHONPATH=$(pwd):${PYTHONPATH}
 python stream_online_viewer/start_stream.py
 ```
->>>>>>> 2bd363649b34a8ee6caf8c72912f673dfe50f65c
-
 
 ## Contact
 
