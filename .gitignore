@@ -146,7 +146,12 @@ ENV/
 simulation_*_*_*.npy
 test_background_*_*_*.npy
 
+<<<<<<< HEAD
 #macos file
 .DS_store
 # stream file
 *stream.png
+=======
+# macos files
+*.DS_Store
+>>>>>>> 2bd363649b34a8ee6caf8c72912f673dfe50f65c
