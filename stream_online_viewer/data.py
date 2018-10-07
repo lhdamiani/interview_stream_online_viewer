@@ -49,7 +49,7 @@ def generate_image(size_x=640, size_y=480, beam_size_x=10, beam_size_y=8, noise=
     image = numpy.exp(-(x ** 2 + y ** 2))
 
     image += numpy.random.random((size_y, size_x)) * noise
-
+    # display_image(image)
     return image
 
 

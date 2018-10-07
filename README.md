@@ -31,11 +31,11 @@ conda install -c paulscherrerinstitute bsread numpy matplotlib
 
 ## Run
 -------------------------
-To run the Flask-Socketio web server from the 'backend' folder:
+To run the Flask-Socketio web server from the ROOT folder:
 
 ```bash
 export PYTHONPATH=$(pwd):${PYTHONPATH}
-python web_server.py -H <HOST> -P <PORT>
+python stream_online_viewer/start_server.py -H <HOST> -P <PORT>
 ```
 
 To run the data generator:
@@ -44,7 +44,7 @@ export PYTHONPATH=$(pwd):${PYTHONPATH}
 python stream_online_viewer/start_stream.py
 ```
 
-
+To access the client viewer go
 ### Changelog
 -------------------------
 

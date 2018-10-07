@@ -9,7 +9,14 @@ from random import random
 from time import sleep
 from threading import Thread, Event
 from functools import wraps
-import os, json, optparse
+import os, json, optparse, codecs
+from bsread import source
+from matplotlib import pyplot, image
+import matplotlib
+import msgpack
+import msgpack_numpy as m
+import base64
+
 
 __author__ = 'hax_damiani'
 
@@ -28,30 +35,69 @@ thread = Thread()
 thread_stop_event = Event()
 
 class RandomThread(Thread):
-    def __init__(self):
-        self.delay = 1.5
+    def __init__(self, port, n_img):
+        self._delay = 1.5
         super(RandomThread, self).__init__()
+        self._stream_output_port = port
+        self._n_images = n_img
 
-    def randomNumberGenerator(self):
+    def receive_stream(self):
         """
-        Generate a random number every 1 second and emit to a socketio instance (broadcast)
-        Ideally to be run in a separate thread?
+        to be described
         """
-        #infinite loop of magical random numbers
-        print("Making random numbers")
-        while not thread_stop_event.isSet():
-            number = round(random()*10, 1)
-            # print(number)
-            socketio.emit('newnumber', {'number': number}, namespace='/test')
-            sleep(self.delay)
+        message = None
+
+        # You always need to specify the host parameter, otherwise bsread will try to access PSI servers.
+        with source(host="localhost", port=self._stream_output_port, receive_timeout=1000) as input_stream:
+
+            n_received = 1
+
+            if self._n_images == -1:
+                while True:
+                    message = input_stream.receive()
+                    # In case of receive timeout (1000 ms in this example), the received data is None.
+                    if message is None:
+                        continue
+                    else:
+                        pyplot.imshow(message.data.data['image'].value)
+                        pyplot.savefig('./stream_online_viewer/static/images/stream.png')
+
+                        n_received += 1
+                        data = {'number_of_received_messages':  n_received, 
+                                'data': n_received,
+                                'messages_received': float(message.statistics.messages_received),
+                                'total_bytes_received': float(message.statistics.total_bytes_received),
+                                'repetition_rate': float(message.data.data['repetition_rate'].value),
+                                'beam_energy': float(message.data.data['beam_energy'].value),
+                                # 'image_profile_y': json.dumps(message.data.data['image_profile_y'].value.tolist()),
+                                # 'image_profile_x': json.dumps(message.data.data['image_profile_x'].value.tolist()),
+                                'image_size_y': float(message.data.data['image_size_y'].value),
+                                'image_size_x': float(message.data.data['image_size_x'].value)
+                                }
+                        socketio.emit('newnumber', data, namespace='/test')
+                        
+                        
+                        
+            else:
+                for _ in range(self._n_images):
+                    message = input_stream.receive()
+
+                    # In case of receive timeout (1000 ms in this example), the received data is None.
+                    if message is None:
+                        continue
+
+                    n_received += 1
+                    print("Number of received images:",n_received)
 
     def run(self):
-        self.randomNumberGenerator()
+        self.receive_stream()
+        
 
 
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 
 @socketio.on('connect', namespace='/test')
 def test_connect():
@@ -62,8 +108,9 @@ def test_connect():
     #Start the random number generator thread only if the thread has not been started before.
     if not thread.isAlive():
         print("Starting Thread")
-        thread = RandomThread()
+        thread = RandomThread(8888, -1)
         thread.start()
+
 
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
@@ -97,13 +144,6 @@ class Logout(Resource):
     def get(self):
         session['logged_in'] = False
         return redirect(url_for('index'))
-
-
-# @app.route("/logout")
-# def logout():
-    # session['logged_in'] = False
-    # return redirect(url_for('index'))
-    
 
 api.add_resource(Index, '/')
 api.add_resource(Login,'/login')
