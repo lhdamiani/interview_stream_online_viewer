@@ -1,16 +1,27 @@
-# Flask-Socketio web server
+# STREAM ONLINE VIEWER
 
-**Flask-Socketio web server** is an application to allow multiple clients to display a live stream and visualize it on a web client via browser.
+**STREAM ONLINE VIEWER** is an application to allow multiple clients to display a live stream and visualize it on a web client via browser.
 
 ### Definition
 -   Multiple clients can watch the stream on one web server (multiple web clients connected).
 - The server should be always listening to the stream for messages and discard this messages if there are no clients to send the message to.
 - Each client should start receiving images from the moment he connects onward (do not send old images that the server received before the client connected).
 - When a user opens the web page, it should automatically start receiving the latest data from the server. The web page should display to the user the image and metadata from the stream.
-### Architecture
+
+### Architecture & Technology stack
+Angular + Python + Flask
+
+- Angular is JavaScript (well, actually written in Typescript) framework for building Single Page Application.
+- Python is server side programming language and very powerful to build complex IoT, Image Processing and other types of system.
+- Flask is a REST API framework for Python.
+
+For communication between server and clients, Flask-SocketIO(https://flask-socketio.readthedocs.io/en/latest/) has been used. It gives low latency bi-directional communications between the clients and the server.
+
+For the front end design, Materialize(https://materializecss.com/) was used. It is a modern responsive front-end framework based on Material Design (https://material.io/), developed by Google.
+
 
 ## Installation
-To install the Flask-Socketio web server clone the repository and set up the anaconda virtual environment based on the requirements.txt file in combination with pip and virtualenv.
+To install the STREAM ONLINE VIEWER clone the repository and set up the anaconda virtual environment based on the requirements.txt file in combination with pip and virtualenv.
 
 ```bash
 git clone https://github.com/lhdamiani/interview_stream_online_viewer
@@ -73,6 +84,7 @@ To access the client viewer go to 127.0.0.1:5000 on your browser
 and proceed with the login
 
 **Username: admin**
+
 **Password: password**
 
 > **Note**: For the purpose of this task, not much effort has been invested into the security method. The method adopted simply serves as a reminder that such web app needs security.
@@ -108,7 +120,7 @@ leonardo.hax@psi.ch
 
 ### Acknowledgement
 
-This application was developed based on this repository: https://github.com/miguelgrinberg/Flask-SocketIO
+This application was loosely developed based on this repository: https://github.com/miguelgrinberg/Flask-SocketIO
 
 
 ### Changelog
