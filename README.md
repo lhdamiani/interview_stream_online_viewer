@@ -9,13 +9,6 @@
 - When a user opens the web page, it should automatically start receiving the latest data from the server. The web page should display to the user the image and metadata from the stream.
 ### Architecture
 
-### test
-
-|                |Test                          |Test                         |
-|----------------|-------------------------------|-----------------------------|
-|test|test            |test            |
-
-
 ## Installation
 To install the Flask-Socketio web server clone the repository and set up the anaconda virtual environment based on the requirements.txt file in combination with pip and virtualenv.
 
@@ -63,9 +56,9 @@ To run the Flask-Socketio web server from the ROOT folder:
 
 ```bash
 export PYTHONPATH=$(pwd):${PYTHONPATH}
-python stream_online_viewer/start_server.py -H <HOST> -P <PORT> -S <SOURCE_STREAM_PORT>
+python stream_online_viewer/start_server.py -H <HOST> -P <PORT> -S <SOURCE_STREAM_PORT> -O <SOURCE_STREAM_HOST>
 ```
-> **Note**: Default values for `<HOST>`, `<PORT>` and `<SOURCE_STREAM_PORT>` are 127.0.0.1, 5000 and 8888, respectively.
+> **Note**: Default values for `<HOST>`, `<PORT>`, `<SOURCE_STREAM_PORT>` and `<SOURCE_STREAM_HOST>` are 127.0.0.1, 5000, 8888, and 127.0.0.1 respectively.
 
 To run the data generator:
 ```bash
@@ -76,9 +69,12 @@ python stream_online_viewer/start_stream.py
 
 To access the client viewer go to 127.0.0.1:5000 on your browser
 > **Note**: Firefox is recommended.
+
 and proceed with the login
+
 **Username: admin**
 **Password: password**
+
 > **Note**: For the purpose of this task, not much effort has been invested into the security method. The method adopted simply serves as a reminder that such web app needs security.
 
 The client works in any screen-width - it is ready for mobile usage and small screens.
@@ -102,6 +98,13 @@ For comments and requests, contact:
 ```
 leonardo.hax@psi.ch
 ```
+
+### Possible improvements and drawbacks
+
+|What?|Current implementation|How to improve?|
+|----------------|-------------------------------|-----------------------------|
+|Security|Just a simple login/password to block the visualization of the web app contet.| Implementation of security using Flask-Security(https://pythonhosted.org/Flask-Security/) or Flask-Oauth(https://pythonhosted.org/Flask-OAuth/)|
+|Image loading|For this tasks purpose, the web server receives the message from the data stream generator and saves it to a local file image which is refreshed on the client side's browser. Probably with a high rate of messages it could be a problem to show them with a high frequency. |Transmission of the image data by some encoding protocol which would transfer the data it on a more efficient way without the cost of writing to a disk and re-loading on the client's side.|
 
 ### Acknowledgement
 
