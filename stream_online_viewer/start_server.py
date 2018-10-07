@@ -35,11 +35,12 @@ thread = Thread()
 thread_stop_event = Event()
 
 class RandomThread(Thread):
-    def __init__(self, port, n_img):
+    def __init__(self, port, n_img, stream_host):
         self._delay = 1.5
         super(RandomThread, self).__init__()
         self._stream_output_port = port
         self._n_images = n_img
+        self._stream_host = stream_host
 
     def receive_stream(self):
         """
@@ -48,7 +49,7 @@ class RandomThread(Thread):
         message = None
 
         # You always need to specify the host parameter, otherwise bsread will try to access PSI servers.
-        with source(host="localhost", port=self._stream_output_port, receive_timeout=1000) as input_stream:
+        with source(host=self._stream_host, port=self._stream_output_port, receive_timeout=1000) as input_stream:
 
             n_received = 1
 
@@ -69,25 +70,31 @@ class RandomThread(Thread):
                                 'total_bytes_received': float(message.statistics.total_bytes_received),
                                 'repetition_rate': float(message.data.data['repetition_rate'].value),
                                 'beam_energy': float(message.data.data['beam_energy'].value),
-                                # 'image_profile_y': json.dumps(message.data.data['image_profile_y'].value.tolist()),
-                                # 'image_profile_x': json.dumps(message.data.data['image_profile_x'].value.tolist()),
                                 'image_size_y': float(message.data.data['image_size_y'].value),
                                 'image_size_x': float(message.data.data['image_size_x'].value)
                                 }
                         socketio.emit('newnumber', data, namespace='/test')
-                        
-                        
-                        
             else:
                 for _ in range(self._n_images):
                     message = input_stream.receive()
-
                     # In case of receive timeout (1000 ms in this example), the received data is None.
                     if message is None:
                         continue
+                    else:
+                        pyplot.imshow(message.data.data['image'].value)
+                        pyplot.savefig('./stream_online_viewer/static/images/stream.png')
 
-                    n_received += 1
-                    print("Number of received images:",n_received)
+                        n_received += 1
+                        data = {'number_of_received_messages':  n_received, 
+                                'data': n_received,
+                                'messages_received': float(message.statistics.messages_received),
+                                'total_bytes_received': float(message.statistics.total_bytes_received),
+                                'repetition_rate': float(message.data.data['repetition_rate'].value),
+                                'beam_energy': float(message.data.data['beam_energy'].value),
+                                'image_size_y': float(message.data.data['image_size_y'].value),
+                                'image_size_x': float(message.data.data['image_size_x'].value)
+                                }
+                        socketio.emit('newnumber', data, namespace='/test')
 
     def run(self):
         self.receive_stream()
@@ -108,7 +115,7 @@ def test_connect():
     #Start the random number generator thread only if the thread has not been started before.
     if not thread.isAlive():
         print("Starting Thread")
-        thread = RandomThread(int(default_port_source), -1)
+        thread = RandomThread(int(default_port_source), -1, default_host_source)
         thread.start()
 
 
@@ -154,8 +161,9 @@ if __name__ == '__main__':
     default_host="127.0.0.1"
     # Default port
     default_port="5000"
-
-    # Default port
+    # Default host stream
+    default_host_source="localhost"
+    # Default port stream
     default_port_source="8888"
     # Parser of the options
     parser = optparse.OptionParser()
@@ -168,6 +176,11 @@ if __name__ == '__main__':
             "[default %s]" % default_port,
         default=default_port)
     
+    parser.add_option("-O", "--source_host",
+        help="host for the source generator " + \
+            "[default %s]" % default_host_source,
+        default=default_host_source)
+
     parser.add_option("-S", "--source_port",
         help="Port for the source generator " + \
             "[default %s]" % default_port_source,
