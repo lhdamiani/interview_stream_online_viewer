@@ -3,11 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [0.0.2] - 2018-10-08
+## [0.0.3] - 2018-10-08
+### Changed
+- Explanation of the architecture and analysis of drawbacks/performance into README file.
+
+## [0.0.2] - 2018-10-07
 ### Changed
 - Parametrization of the server.
 - Adjustment of the plot.
-- Explanation of the architecture and analysis of drawbacks/performance into README file.
 - Bugfix: img id source for loading correctly the image.
 
 ### Added
