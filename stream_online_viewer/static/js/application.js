@@ -17,15 +17,16 @@ $(document).ready(function(){
 
     var data = [];
     var dataset;
-    var totalPoints = 10;
     var updateInterval = 1000;
     var now = new Date().getTime();
     var timer;
+    // resizes the window range of the interesting plot with beam energy
     $(window).bind('resize', function() {
     clearTimeout(timer);
     timer = setTimeout(function(){ $(window).resize(); }, 250);
     });
 
+    // Options for the interesting plot with beam energy
     var options = {
         series: {
             lines: {
@@ -40,7 +41,7 @@ $(document).ready(function(){
             tickFormatter: function (v, axis) {
                 var date = new Date(v);
     
-                if (date.getSeconds() % 4 == 0) {
+                if (date.getSeconds() % 10 == 0) {
                     var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
                     var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
                     var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
@@ -86,60 +87,35 @@ $(document).ready(function(){
 
     //connect to the socket server.
     var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-    var numbers_received = [];
+    var messages_received = [];
 
+    // Update the interesting plot with beam energy
     function update(){
         $.plot($("#flot-placeholder1"), dataset, options);
         
     }
 
     //receive details from server
-    socket.on('newnumber', function(msg) {
-
-        // console.log("Received number", 
-        //     msg.data, 
-        //     msg.image_size_x, 
-        //     msg.image_size_y, 
-        //     msg.image_profile_y, 
-        //     msg.image_profile_x, 
-        //     msg.repetition_rate,
-        //     msg.beam_energy,
-        //     msg.bytes_received,
-        //     msg.messages_received,
-        //     msg.total_bytes_received,
-        //     msg.number_of_received_messages);
-        // console.log(msg.image)
-        // var dataImg = msgpack.decode(msg.image);
-        // console.log(dataImg)
-        //maintain a list of ten numbers
-        if (numbers_received.length >= 10){
-            numbers_received.shift();
-            data.shift();
-        }           
-
-        $("#img2").attr("src","/static/images/stream.png?+?rnd="+Math.random());
-        
-        numbers_received.push(msg.number_of_received_messages);
-        numbers_string = '';
-        for (var i = 0; i < numbers_received.length; i++){
-            numbers_string = numbers_string + '<p>' + numbers_received[i].toString() + '</p>';
-        }
-        // $('#log').html(numbers_string);
+    socket.on('newmessage', function(msg) {
+        messages_received.push(msg.number_of_received_messages);
+        // Collapsible image details html
         imgDetails = "Image size x:"+ msg.image_size_x.toString() +"(originally) <br> Image size y:" + msg.image_size_y.toString() +"(originally)"
         $('#ImgDetails').html(imgDetails);
+        // Collapsible connection details html
         connectionDetails = "Total bytes received: "+msg.total_bytes_received.toString()+ "<br>Numbers of received messages: " +msg.number_of_received_messages.toString()
         $('#ConnectionDetails').html(connectionDetails);
+        // Collapsible metadata details html
         metadataDetails = "Beam energy:"+ msg.beam_energy.toString() +"<br> Repetition rate:" + msg.repetition_rate.toString()
         $('#MetadataDetails').html(metadataDetails);
-
-        $("#imgFromServer").attr("src","/static/images/stream.png?");
-
-        
-
+        // Src for the image from server
+        valueTime = new Date().getTime()
+        $("#imgFromServer").attr("src","/static/images/stream.png?t=" + valueTime);
+        // Updates the data for the interesting plot with beam energy
+        if (messages_received.length >= 15){
+            data.shift();
+        } 
         data.push([now += updateInterval, msg.beam_energy])
-        dataset = [
-            { label: "Info", data: data, color: "#00FF00" }
-        ];
+        dataset = [{ label: "Info", data: data, color: "#00FF00" }];
         update()
         setTimeout(update, updateInterval);
     });
@@ -155,9 +131,6 @@ $(document).ready(function(){
   
     .controller('StreamController', ['$scope', '$log', '$http',
       function($scope, $log, $http) {
-        
-        
-
       }
     ]);
   

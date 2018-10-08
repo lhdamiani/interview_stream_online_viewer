@@ -22,14 +22,14 @@ app.config['DEBUG'] = True
 
 #turn the flask app into a socketio app
 socketio = SocketIO(app)
-#random number Generator Thread
+
+# Server thread
 thread = Thread()
 thread_stop_event = Event()
 
 
-
 class ClientThread(Thread):
-    def __init__(self, port, n_img, stream_host):
+    def __init__(self, port, n_img, stream_host, ):
         super(ClientThread, self).__init__()
         self._delay = 1.5
         self._stream_output_port = port
@@ -37,11 +37,10 @@ class ClientThread(Thread):
         self._stream_host = stream_host
 
     def receive_stream(self):
-        """Function that receives the stream and send the signal for the clients using socketio.
-
-            """
+        """
+        Function that receives the stream and send the signal for the clients using socketio.
+        """
         message = None
-
         # You always need to specify the host parameter, otherwise bsread will try to access PSI servers.
         with source(host=self._stream_host, port=self._stream_output_port, receive_timeout=1000) as input_stream:
 
@@ -110,7 +109,8 @@ def page_not_found(e):
 def test_connect():
     # need visibility of the global thread object
     global thread
-    print('Client connected')
+    print('Client connected...')
+    
 
     #Start the random number generator thread only if the thread has not been started before.
     if not thread.isAlive():
@@ -121,7 +121,8 @@ def test_connect():
 # Detecs when a client disconnects
 @socketio.on('disconnect', namespace='/test')
 def test_disconnect():
-    print('Client disconnected')
+    print('Client disconnected...')
+    
 
 # RESTFUL API for index
 class Index(Resource):
