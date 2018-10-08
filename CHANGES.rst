@@ -3,11 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased] - 2018-10-07
+## [0.0.2] - 2018-10-08
 ### Changed
-- README.md file
 - Parametrization of the server.
 - Adjustment of the plot.
+- Explanation of the architecture and analysis of drawbacks/performance into README file.
+- Bugfix: img id source for loading correctly the image.
 
 ### Added
 - Implementation of the logout restful resource api.
@@ -31,5 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - lib folder containing angular, bootstrap, flot and jquery files. 
 
 [Unreleased]: https://github.com/paulscherrerinstitute/interview_stream_online_viewer/compare/master...lhdamiani:master
+[0.0.2]: https://github.com/lhdamiani/interview_stream_online_viewer/tree/v0.0.2
 [0.0.1]: https://github.com/lhdamiani/interview_stream_online_viewer/tree/v0.0.1
+
 

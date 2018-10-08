@@ -104,19 +104,15 @@ export PYTHONPATH=$(pwd):${PYTHONPATH}
 python stream_online_viewer/start_stream.py
 ```
 
-## Contact
-
-For comments and requests, contact:
-```
-leonardo.hax@psi.ch
-```
 
 ### Possible improvements and drawbacks
 
 |What?|Current implementation|How to improve?|
 |----------------|-------------------------------|-----------------------------|
 |Security|Just a simple login/password to block the visualization of the web app contet.| Implementation of security using Flask-Security(https://pythonhosted.org/Flask-Security/) or Flask-Oauth(https://pythonhosted.org/Flask-OAuth/)|
-|Image loading|For this tasks purpose, the web server receives the message from the data stream generator and saves it to a local file image which is refreshed on the client side's browser. Probably with a high rate of messages it could be a problem to show them with a high frequency. |Transmission of the image data by some encoding protocol which would transfer the data it on a more efficient way without the cost of writing to a disk and re-loading on the client's side.|
+|Image loading|For this tasks purpose, the web server receives the message from the data stream generator and saves it to a local file image which is refreshed on the client side's browser. Probably with a high rate of messages it could be a problem to show them with a high frequency. |Transmission of the image data by some encoding protocol which would transfer the data it on a more efficient way without the cost of writing to a disk and re-loading on the client's side. Encoding/Decoding protocols as B64 could be of use https://www.base64-image.de/.|
+|Mobile access| Current implementation was focused on regular computer 'width' screens but implemented with angular and materialize which allows small screens to access the content in a responsive way. But, due to the time constraint and purpose of this task, no extensive tests have been made in order to assure that all functionalities are flawless.| Perform tests and evaluate the usability and functionalities on small-screens devices.|
+|Performance| Due to time and purpose of this task, the focus was to implement a minimally running example with the desired functionality. Flask-SocketIO was used to communication between server and clients.| Deeper analysis about possible tools can be further analyzed once the time is not a constraint. Analysis and benchmarks analysing the performance of Flask-SocketIO have been performed by others and provide a satisfactory results for this application. Such analysis can be found in http://drewww.github.io/socket.io-benchmarking/ and http://blog.mixu.net/2011/11/22/performance-benchmarking-socket-io-0-8-7-0-7-11-and-0-6-17-and-nodes-native-tcp/|
 
 ### Acknowledgement
 
@@ -128,3 +124,10 @@ This application was loosely developed based on this repository: https://github.
 See file `CHANGES.rst`.
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
+## Contact
+
+For comments, contact:
+```
+leonardo.hax@psi.ch
+```
