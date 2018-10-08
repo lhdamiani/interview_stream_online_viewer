@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 - lib folder containing angular, bootstrap, flot and jquery files. 
 
 [Unreleased]: https://github.com/paulscherrerinstitute/interview_stream_online_viewer/compare/master...lhdamiani:master
+[0.0.3]: https://github.com/lhdamiani/interview_stream_online_viewer/tree/v0.0.3
 [0.0.2]: https://github.com/lhdamiani/interview_stream_online_viewer/tree/v0.0.2
 [0.0.1]: https://github.com/lhdamiani/interview_stream_online_viewer/tree/v0.0.1
 
