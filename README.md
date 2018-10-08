@@ -29,25 +29,6 @@ cd interview_stream_online_viewer
 mkvirtualenv -p /usr/local/anaconda3/bin/python interview
 pip install -r requirements.txt 
 ```
-### Dependencies
-
-We use Anaconda for packaging our libraries. If you are not familiar with Anaconda, have a look at their website:
-
-[https://anaconda.org/](https://anaconda.org/)
-
-In order to use this repository, you will have to install the following conda packages:
-
--   matplotlib
--   numpy
--   bsread
-
-You can do this (on Linux) by running:
-
-conda install -c paulscherrerinstitute bsread numpy matplotlib
-
-We have our own Anaconda repository: [https://anaconda.org/paulscherrerinstitute/](https://anaconda.org/paulscherrerinstitute/)
-
-When installing PSI libraries you have to specify that you want to install them from the PSI Anaconda repository (the "-c paulscherrerinstitute" flag in the command above).
 
 ### Dependencies
 In order to use this repository, you will have to install the following conda packages:
@@ -60,6 +41,8 @@ You can do this (on Linux) by running:
 ```bash
 conda install -c paulscherrerinstitute bsread numpy matplotlib
 ```
+
+When installing PSI libraries you have to specify that you want to install them from the PSI Anaconda repository (the "-c paulscherrerinstitute" flag in the command above).
 
 ## Run
 -------------------------
