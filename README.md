@@ -29,6 +29,8 @@ cd interview_stream_online_viewer
 mkvirtualenv -p /usr/local/anaconda3/bin/python interview
 pip install -r requirements.txt 
 ```
+> **Note**: if mkvirtualenv is not found, make sure to set the environment variable VIRTUALENVWRAPPER_PYTHONto pointing to `export VIRTUALENVWRAPPER_PYTHON=/usr/local/anaconda3/bin/python`
+
 
 ### Dependencies
 In order to use this repository, you will have to install the following conda packages:
@@ -43,6 +45,8 @@ conda install -c paulscherrerinstitute bsread numpy matplotlib
 ```
 
 When installing PSI libraries you have to specify that you want to install them from the PSI Anaconda repository (the "-c paulscherrerinstitute" flag in the command above).
+
+> **Note**: if conda is not found, make sure to add to the path `export PATH=/Users/lhdamiani/miniconda3/bin:$PATH`, don't forget to change the username.
 
 ## Run
 -------------------------
